@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="l10n_do_pos_fiscal_type_view" model="ir.ui.view">
+        <field name="name">l10n.do.pos.fiscal.type.view</field>
+        <field name="model">account.fiscal.type</field>
+        <field name="inherit_id" ref="l10n_do_ncf.account_fiscal_type_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='active']" position="after">
+                <field name="pos_available"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

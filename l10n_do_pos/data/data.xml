@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!--
+            Cliente genérico de consumo. Se usa como partner por defecto en el
+            POS fiscal cuando una orden se envía sin cliente y se necesita
+            generar factura con NCF (ver pos.config.pos_partner_id).
+        -->
+        <record model="res.partner" id="default_pos_partner" forcecreate="0">
+            <field name="name">Cliente de consumo</field>
+        </record>
+
+        <!--
+            Método de pago "Nota de Crédito". split_transactions=True para que
+            cada pago genere su propia línea por cliente (requisito Odoo), e
+            is_credit_note=True habilita la lógica de aplicar un out_refund
+            existente como medio de pago.
+        -->
+        <record model="pos.payment.method" id="credit_note">
+            <field name="name">Nota de Crédito</field>
+            <field name="split_transactions">True</field>
+            <field name="is_credit_note">True</field>
+        </record>
+
+        <!--
+            NOTA: En versiones anteriores existían aquí dos records pos.config
+            ("Default POS Partner" y "Add Payment Method") que pre-sembraban
+            un POS. En Odoo 19, pos.config.create() invoca
+            _default_payment_methods() -> _create_journal_and_payment_methods(),
+            que exige un diario bancario existente y lanza UserError si no hay
+            uno en la compañía. Eso hacía que el módulo no se pudiera instalar
+            en compañías sin plan contable aplicado.
+            Se eliminaron: el usuario debe crear/configurar sus pos.config
+            desde la UI de Punto de Venta y añadir manualmente el método de
+            pago "Nota de Crédito" creado arriba.
+        -->
+    </data>
+</odoo>

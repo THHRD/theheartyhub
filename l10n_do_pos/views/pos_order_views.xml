@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="l10n_do_pos_view_pos_pos_form" model="ir.ui.view">
+        <field name="name">l10n.do.pos.view.pos.pos.form</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//notebook" position="inside">
+                <page string="Fiscal data"  invisible="ncf == False">
+                    <group>
+                        <field name="ncf" readonly="1"/>
+                        <field name="ncf_expiration_date" readonly="1"/>
+                        <field name="fiscal_type_id" readonly="1"/>
+                        <field name="ncf_origin_out"  invisible="ncf_origin_out == ''" readonly="1"/>
+                        <separator string="Factura electrónica"></separator>
+                        <button name="sync_data_from_order" type="object" class="button btn-primary btn" icon="fa-refresh" string="Syncronizar datos."></button>
+                        <field name="l10n_do_ecf_security_code" string="Código de seguridad" readonly="1"></field>
+                        <field name="l10n_do_ecf_sign_date" string="Fecha de Firma" readonly="1"></field>
+                        <field name="l10n_do_electronic_stamp" string="Consulta Electrónica" readonly="1" widget="url"></field>
+
+                        <separator string="Nota de crédito"></separator>
+                        <field name="l10n_do_ecf_modification_code" readonly="1"></field>
+                        <field name="ecf_modification_reason" readonly="1"></field>
+                    </group>
+                </page>
+                <page string="Reembolso">
+                    <group>
+                        <group>
+                            <field name="is_credit_note_voucher" readonly="1"></field>
+                            <field name="credit_note_amount_total" readonly="1"></field>
+                            <field name="credit_note_amount_used" readonly="1"></field>
+                            <field name="credit_note_amount_available" readonly="1"></field>
+                            <field name="credit_note_redeemed" readonly="1"></field>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="l10n_do_pos_view_pos_order_tree" model="ir.ui.view">
+        <field name="name">l10n.do.pos.view.pos.order.tree</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_order_tree"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="ncf"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

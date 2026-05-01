@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="l10n_do_pos.SetFiscalTypeButton">
+        <button
+            class="control-button setFiscalType button btn btn-light btn-lg w-100 w-md-50 lh-lg text-truncate"
+            t-att-class="currentOrder?.fiscal_type_id ? ' is-set' : ''"
+            t-on-click="onClick">
+            <i class="fa fa-edit me-2" role="img" aria-label="Set fiscal Type" title="Set fiscal Type"/>
+            <span t-esc="currentFiscalTypeName"/>
+        </button>
+    </t>
+</templates>
