@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="ecf_prod__account_move_form_view" model="ir.ui.view">
+            <field name="name">account.move.form.ecf</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+
+                <!-- ORIGIN OUT -->
+                <xpath expr="//field[@name='origin_out']" position="attributes">
+                   <attribute name="invisible">
+                      move_type not in ['out_refund','in_refund','out_invoice'] or not is_debit_note or not origin_out
+                  </attribute>
+                </xpath>
+
+                <!-- INVOICE LINES (ODOO 18 SAFE) -->
+                <xpath expr="//field[@name='invoice_line_ids']//field[@name='name']" position="after">
+                    <field name="ecf_decimal_precision" optional="hide"/>
+                    <field name="ecf_quantity_precision" optional="hide"/>
+                    <field name="ecf_currency_precision" optional="hide"/>
+                    <field name="ecf_tipo_ajuste" optional="hide"/>
+                    <field name="ecf_monto_descuento" optional="hide"/>
+                    <field name="fecha_elaboracion" optional="hide"/>
+                    <field name="fecha_vencimiento" optional="hide"/>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>

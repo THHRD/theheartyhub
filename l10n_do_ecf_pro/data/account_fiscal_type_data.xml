@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo noupdate="1">
+    <!--sale-->
+     <record id="fiscal_type_fiscal_electronic_sale" model="account.fiscal.type">
+        <field name="name">Fiscal Electrónico</field>
+        <field name="prefix">E31</field>
+        <field name="type">out_invoice</field>
+        <field name="sequence">17</field>
+        <field name="padding">10</field>
+        <field name="assigned_sequence" eval="True"/>
+        <field name="requires_document" eval="True"/>
+    </record>
+
+     <record id="fiscal_type_consumo_electronic" model="account.fiscal.type">
+        <field name="name">Consumo Electrónica </field>
+        <field name="prefix">E32</field>
+        <field name="type">out_invoice</field>
+        <field name="sequence">18</field>
+        <field name="padding">10</field>
+    </record>
+
+    <record id="fiscal_electronic_debit_nove" model="account.fiscal.type">
+        <field name="name">Nota de Débito Electrónica</field>
+        <field name="prefix">E33</field>
+        <field name="type">out_invoice</field>
+        <field name="sequence">19</field>
+        <field name="padding">10</field>
+        <field name="assigned_sequence" eval="True"/>       
+    </record>
+    
+    <!--special-->
+    <record id="fiscal_type_credit_note_electronic" model="account.fiscal.type">
+        <field name="name">Nota de Crédito Electrónica</field>
+        <field name="prefix">E34</field>
+        <field name="type">out_refund</field>
+        <field name="sequence">20</field>
+        <field name="padding">10</field>
+    </record>
+    <!--purchase-->
+    <record id="fiscal_type_informal_electronic" model="account.fiscal.type">
+        <field name="name">Compras Electrónico Informal</field>
+        <field name="prefix">E41</field>
+        <field name="type">in_invoice</field>
+        <field name="sequence">21</field>
+        <field name="padding">10</field>
+        <field name="requires_document" eval="True"/>
+    </record>
+
+    <record id="fiscal_type_minor_electronic" model="account.fiscal.type">
+        <field name="name">Gastos Menores Electrónico</field>
+        <field name="prefix">E43</field>
+        <field name="type">in_invoice</field>
+        <field name="sequence">22</field>
+        <field name="padding">10</field>
+    </record>
+
+    <record id="fiscal_type_especial_electronic" model="account.fiscal.type">
+        <field name="name">Regímenes Especiales Electrónico</field>
+        <field name="prefix">E44</field>
+        <field name="type">out_invoice</field>
+        <field name="sequence">23</field>
+        <field name="padding">10</field>
+        <field name="assigned_sequence" eval="True"/>
+        <field name="requires_document" eval="True"/>
+    </record>
+
+     <record id="fiscal_type_gubernamental_electronic" model="account.fiscal.type">
+        <field name="name">Gubernamental Electrónico</field>
+        <field name="prefix">E45</field>
+        <field name="type">out_invoice</field>
+        <field name="sequence">23</field>
+        <field name="padding">10</field>
+        <field name="assigned_sequence" eval="True"/>
+        <field name="requires_document" eval="True"/>
+     </record>
+
+     <record id="fiscal_type_exportation_electronic" model="account.fiscal.type">
+        <field name="name">Electrónico para Exportaciones</field>
+        <field name="prefix">E46</field>
+        <field name="type">out_invoice</field>
+        <field name="sequence">25</field>
+        <field name="padding">10</field>
+        <field name="assigned_sequence" eval="False"/>
+        <field name="requires_document" eval="True"/>
+    </record>
+
+     <record id="fiscal_type_exterior_payment_electronic" model="account.fiscal.type">
+        <field name="name">Electrónico para Pagos al Exterior </field>
+        <field name="prefix">E47</field>
+        <field name="type">in_invoice</field>
+        <field name="sequence">26</field>
+        <field name="padding">10</field>
+        <field name="assigned_sequence" eval="False"/>
+        <field name="requires_document" eval="True"/>
+    </record>
+
+</odoo>

@@ -1,0 +1,25 @@
+"""
+Ejemplos para ofuscar programas python, pasos:
+1.- 
+>> pip3 install pyarmor
+2.- (Osfuscar varios archivos sin licencia)
+>> pyarmor gen account_move.py account_move_line.py company.py sign.py sign_company.py
+
+2.1.-(Para crear licencias con expiracion)
+>> pyarmor gen --expired 2023-12-31 account_move.py account_move_line.py company.py sign.py sign_company.py
+
+2.2.-(crear con serie de disco duro, serie ethernet o ip) (-b DEV, --bind-device DEV)
+>> pyarmor gen --bind-device "100304PBN2081SF3NJ5T" foo.py 
+>> pyarmor gen --bind-device "20:c1:d2:2f:a0:96" foo.py
+>> pyarmor gen --bind-device "192.168.0.10" foo.py
+
+3.- Los archivos se crean en la subcarpeta dist, agregamos la nueva ruta de paquete
+>> sys.path.insert(0, os.getcwd() + '/dist') 
+
+4.1.-Ofuscar carpetas o paquetes (-O para ruta destino)
+pyarmor gen -O omerplus -r -i desarrollo/l10n_do_pos desarrollo/l10n_do_ecf
+pyarmor gen -O omerplus -r -i desarrollo/l10n_do_ecf
+pyarmor gen -O omerplus -r -i desarrollo/l10n_do_ecf_pos
+pyarmor gen -O omerplus -r -i desarrollo/mp_manual_currency
+pyarmor gen -r -i l10n_do_pos
+"""

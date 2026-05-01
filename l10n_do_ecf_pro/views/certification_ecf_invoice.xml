@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+
+    <!-- ============================================= -->
+    <!-- REPORTE DE FACTURA ELECTRÓNICA PERSONALIZADO -->
+    <!-- ============================================= -->
+    <report
+        id="report_invoice_ecf"
+        model="account.move"
+        string="Factura Electrónica"
+        report_type="qweb-pdf"
+        file="l10n_do_ecf_pro.report_invoice_document_inherit"
+        name="l10n_do_ecf_pro.report_invoice_document_inherit"
+        print_report_name="(object.ref or object.name or 'Factura').replace('/','_')"
+    />
+
+    <!-- ============================================= -->
+    <!-- PLANTILLA QWEB PERSONALIZADA PARA E-CF -->
+    <!-- ============================================= -->
+    <template id="report_invoice_document_inherit" inherit_id="account.report_invoice_document">
+      <xpath expr="." position="replace">
+
+        <t t-call="web.basic_layout">
+          <t t-foreach="docs" t-as="doc">
+<style>
+  @page { size: A4; margin: 18mm; }
+  body { font-family: 'Helvetica', Arial, sans-serif; font-size: 11px; color: #000; line-height: 1.2; }
+  .row { display: flex; flex-wrap: wrap; }
+  .col-6 { width: 50%; padding: 2px 3px; }
+  .text-right { text-align: right; }
+  .bold { font-weight: 700; }
+  .section { margin-bottom: 3px; }
+  .border { border: 1px solid #000; }
+  .table-lines { width: 100%; border-collapse: collapse; font-size: 10px; margin-top: 10px; }
+  .table-lines th, .table-lines td { border: 1px solid #ddd; padding: 5px; }
+  .table-lines th { background: #f3f3f3; }
+  .totals { width: 60%; margin-left: auto; font-size: 11px; margin-top: 8px; }
+  .totals td { padding: 3px; }
+  .totals .label { text-align: right; font-weight: 600; }
+  .footer { font-size: 9px; margin-top: 10px; display: flex; justify-content: space-between; align-items: center; }
+  p { margin: 0 0 2px 0; padding: 0; }
+</style>
+
+<!-- ===================== ENCABEZADO ===================== -->
+<div class="row section">
+  <div class="col-6">
+    <p><span class="bold">Nombre o Razón Social:</span> <t t-esc="doc.company_id.name or ''"/></p>
+    <p><span class="bold">RNC:</span> <t t-esc="doc.company_id.vat or ''"/></p>
+    <p><span class="bold">Dirección:</span> <t t-esc="doc.company_id.partner_id.street or ''"/></p>
+    <p><span class="bold">Municipio:</span> <t t-esc="doc.company_id.partner_id.city or ''"/> - <t t-esc="doc.company_id.partner_id.state_id.name or ''"/></p>
+  </div>
+
+  <div class="col-6 text-right">
+    <p class="bold" style="font-size:16px;"><t t-esc="doc.fiscal_type_id.name or 'Factura Electrónica'"/></p>
+    <p class="bold" style="font-size:16px;">e-NCF <t t-esc="doc.ref"/></p>
+    <t t-if="doc.origin_out">
+      <p><span class="bold">e-NCF Modificado:</span> <t t-esc="doc.origin_out"/></p>
+    </t>
+    <p><span class="bold">Fecha de emisión:</span> <t t-esc="doc.invoice_date or ''"/></p>
+    <t t-if="doc.ncf_expiration_date">
+      <p><span class="bold">e-NCF válido hasta:</span> <t t-esc="doc.ncf_expiration_date"/></p>
+    </t>
+    <p><span class="bold">Sucursal:</span> <t t-esc="doc.company_id.partner_id.name"/></p>
+    <p><span class="bold">Tipo de pago:</span> <t t-esc="doc.invoice_payment_term_id.name or 'Contado'"/></p>
+  </div>
+</div>
+
+<!-- ===================== BLOQUE CLIENTE ===================== -->
+<div class="border section" style="padding:4px;">
+  <p><span class="bold">Cliente:</span> <t t-esc="doc.partner_id.name or ''"/></p>
+  <p><span class="bold">RNC:</span> <t t-esc="doc.partner_id.vat or ''"/></p>
+  <p><span class="bold">Dirección:</span> <t t-esc="doc.partner_id.street or ''"/></p>
+  <p><span class="bold">Municipio:</span> <t t-esc="doc.partner_id.city or ''"/></p>
+</div>
+
+<!-- ===================== DETALLE DE PRODUCTOS ===================== -->
+<table class="table-lines">
+  <thead>
+    <tr>
+      <th>Descripción</th>
+      <th>Cantidad</th>
+      <th>Unidad</th>
+      <th>Precio</th>
+      <th>Impuesto</th>
+      <th>Valor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <t t-foreach="doc.invoice_line_ids" t-as="l">
+      <tr>
+        <td><t t-esc="l.name or l.product_id.display_name or ''"/></td>
+        <td class="text-right"><t t-esc="'%.2f' % (l.quantity or 0.0)"/></td>
+        <td class="text-right"><t t-esc="l.product_uom_id.name or ''"/></td>
+        <td class="text-right"><t t-esc="'%.2f' % (l.price_unit or 0.0)"/></td>
+        <td class="text-right">
+          <t t-set="tax_data" t-value="l.tax_ids.compute_all(l.price_unit, l.currency_id, l.quantity, l.product_id, l.move_id.partner_id) if l.tax_ids else {}"/>
+          <t t-set="tax_total" t-value="sum(t['amount'] for t in tax_data.get('taxes', []))"/>
+          <t t-esc="'%.2f' % tax_total"/>
+        </td>
+        <td class="text-right"><t t-esc="'%.2f' % (l.price_subtotal or 0.0)"/></td>
+      </tr>
+    </t>
+  </tbody>
+</table>
+
+<!-- ===================== TOTALES ===================== -->
+<table class="totals">
+  <tr><td class="label">Subtotal</td><td class="text-right"><t t-esc="'RD$ %.2f' % (doc.amount_untaxed or 0.0)"/></td></tr>
+  <tr><td class="label">ITBIS</td><td class="text-right"><t t-esc="'RD$ %.2f' % (doc.amount_tax or 0.0)"/></td></tr>
+  <tr style="font-size:13px;"><td class="label bold">Total factura</td><td class="text-right bold"><t t-esc="'RD$ %.2f' % (doc.amount_total or 0.0)"/></td></tr>
+</table>
+
+<!-- ===================== BLOQUE QR DGII ===================== -->
+<t t-if="doc.is_ecf_invoice">
+  <div class="border section" style="margin-top:15px; padding:6px;">
+    <div style="display:flex; align-items:flex-start; gap:20px;">
+      <div style="width:140px;">
+        <t t-if="doc.l10n_do_ecf_qr_image">
+          <img t-att-src="'data:image/png;base64,%s' % doc.l10n_do_ecf_qr_image.decode()" width="120" height="120"
+               style="border:1px solid #ccc; padding:2px;"/>
+        </t>
+      </div>
+      <div style="flex:1;">
+        <p style="font-size:11px;"><b>Código de Seguridad:</b> <t t-esc="doc.l10n_do_ecf_security_code or ''"/></p>
+        <p style="font-size:11px;"><b>Ambiente:</b> <t t-esc="doc.l10n_do_ecf_ambiente or 'Producción'"/></p>
+
+        <t t-if="doc.l10n_do_ecf_sign_date">
+          <p style="font-size:11px;">
+            <b>Fecha de Firma Digital:</b>
+            <t t-esc="doc.l10n_do_ecf_sign_date.strftime('%d-%m-%Y %H:%M:%S')"/>
+          </p>
+        </t>
+        
+         <!--<span t-esc="doc.l10n_do_electronic_stamp"/>  Por da error con wkhtmltopdf-->
+        <!--
+        <t t-if="doc.l10n_do_electronic_stamp">
+          <p style="font-size:10px; word-break:break-all;">
+            <b>Validar en DGII:</b><br/>           
+            <span  t-raw="doc.l10n_do_electronic_stamp"/>           
+          </p>
+        </t> -->
+
+        <p style="font-size:9px; margin-top:5px; color:#333;">
+          Representación impresa del Comprobante Fiscal Electrónico (e-CF).  
+          Consulte la validez en <b>www.dgii.gov.do</b>
+        </p>
+      </div>
+    </div>
+  </div>
+</t>
+
+<!-- ===================== PIE ===================== -->
+<div class="footer">
+  <div>
+    <p><strong>Términos y condiciones de pago</strong></p>
+    <p>Aceptada, firma y/o sello y fecha</p>
+  </div>
+  <div class="text-right">
+    <p>Página No. 1 de 1</p>
+  </div>
+</div>
+
+          </t>
+        </t>
+      </xpath>
+    </template>
+
+  </data>
+</odoo>

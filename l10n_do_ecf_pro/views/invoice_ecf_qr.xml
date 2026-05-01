@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!-- QR code in invoice report is disabled temporarily, uncomment to enable it again. -->
+	<!-- <template id="account_invoice_report_ecf_template" inherit_id="account.report_invoice_document">
+        <xpath expr="//div[@id='qrcode']" position="after">
+            <div t-if="o.is_ecf_invoice and o.l10n_do_ecf_qr_image" style="margin-top: 6px;">
+                <div>
+                    <img t-att-src="image_data_uri(o.l10n_do_ecf_qr_image)" width="120" height="120"
+                         style="border: 1px solid #ccc; padding: 2px;"/>
+                </div>
+                <div style="font-size: 10px; margin-top: 4px;">
+                    <div>
+                        <strong>Código de Seguridad:</strong>
+                        <span t-esc="o.l10n_do_ecf_security_code or ''"/>
+                    </div>
+                    <t t-if="o.l10n_do_ecf_sign_date">
+                        <div>
+                            <strong>Fecha Firma Digital:</strong>
+                            <span t-esc="o.l10n_do_ecf_sign_date.strftime('%d-%m-%Y %H:%M:%S')"/>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </xpath>
+	</template> -->
+    
+    <record id="action_run_ecf_recompute" model="ir.actions.server">
+        <field name="name">Regenerar Firma e-CF</field>
+        <field name="model_id" ref="model_account_move"/>
+        <field name="binding_model_id" ref="model_account_move"/>
+        <field name="state">code</field>
+        <field name="code">
+            model.action_manual()
+        </field>
+    </record>
+
+    <record id="invoice_form_ecf2_inherited" model="ir.ui.view">
+        <field name="name">invoice.form.inherited</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@id='other_tab_group']" position="inside">
+                <group string="extra" invisible="move_type not in ('out_invoice', 'out_refund')">
+                    <field name="fecha_entrega"/>
+		          <field name="fecha_orden_compra"/>
+		         <field name="purchase_order_ref"/>
+                     <field name="indicador_monto_grabado"/> 
+                    <!-- <field name="numero_referencia"/> -->
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="invoice_form_ecf_inherited" model="ir.ui.view">
+        <field name="name">invoice.form.inherited</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <field name="restrict_mode_hash_table" position="after">
+                <field name="is_ecf_invoice" invisible="1"/>
+                <field name="origin_out" invisible="1"/>
+            </field>
+
+            <field name="ref" position="after">
+               <field name="l10n_do_ecf_modification_code" invisible="country_code != 'DO' or not is_ecf_invoice or move_type not in ('in_refund', 'out_refund')"
+                                                           required="is_ecf_invoice and move_type in ('in_refund', 'out_refund')"
+                                                           readonly="state == 'posted'"/>
+                <field name="ecf_modification_reason" invisible="country_code != 'DO' or not is_ecf_invoice or move_type not in ('in_refund', 'out_refund')"
+                                                           required="is_ecf_invoice and move_type in ('in_refund', 'out_refund')"
+                                                           readonly="state == 'posted'"/>
+            </field>
+            <xpath expr="//page[@name='other_info']" position="after">
+                <!-- <page name="InformacionesAdicionales" string="Info adicionales e-CF" invisible="is_ecf_invoice == False"> -->
+                <page name="InformacionesAdicionales" string="Info adicionales e-CF">
+                    <group>
+                        <group>
+                            <field name="fecha_embarque"/>
+                            <field name="numero_embarque"/>
+                            <field name="numero_contenedor"/>
+                            <field name="numero_referencia"/>
+                            <field name="nombre_puerto_embarque"/>
+                            <field name="total_fob"/>
+                            <field name="seguro"/>
+                            <field name="flete"/>
+                            <field name="total_cif"/>
+                            <field name="regimen_aduanero"/>
+                            <field name="nombre_puerto_salida"/>
+                            <field name="nombre_puerto_desembarque"/>
+                        </group>
+                        <group>
+                            <field name="peso_bruto"/>
+                            <field name="unidad_peso_bruto"/>
+                            <field name="peso_neto"/>
+                            <field name="unidad_peso_neto"/>
+                            <field name="cantidad_bulto"/>
+                            <field name="unidad_bulto"/>
+                            <field name="volumen_bulto"/>
+                            <field name="unidad_volumen"/>
+                            <field name="via_transporte"/>
+                            <field name="pais_origen"/>
+                            <field name="direccion_destino"/>
+                            <field name="pais_destino"/>
+                            <field name="numero_albaran"/>
+                        </group>
+		     </group>
+		     <group string="Datos Auxiliares Certificacion">
+		         <group>
+                            <field name="ecf_monto_gravado_total"/>
+                            <field name="ecf_monto_gravadoI1"/>
+                            <field name="ecf_monto_gravadoI2"/>
+                            <field name="ecf_monto_gravadoI3"/>
+			    <field name="ecf_monto_exento"/>
+			    <field name="ecf_total_ITBIS1"/> 
+			    <field name="ecf_total_ITBIS2"/> 
+			    <field name="ecf_monto_total"/> 
+			    <field name="ecf_monto_periodo"/>
+			    <field name="ecf_valor_pagar"/>
+		         </group>
+		     </group>
+                </page>
+                <page name="ecf" string="Factura e-CF Emisión" invisible="is_ecf_invoice == False or ncf_expiration_date == False or state == 'draft'">
+                    <group>
+                        <group>
+                            <!-- <field name="ncf_expiration_date" string="Vencimiento NCF" readonly="state != 'draft'"/> -->
+                            <field name="l10n_do_ecf_edi_file" string="XML ECF firmado" filename="l10n_do_ecf_edi_file_name" readonly="1"/>
+                            <field name="l10n_do_fc_edi_file"  string="XML RFCE consumo" filename="l10n_do_ecf_edi_file_name" readonly="1" invisible="l10n_do_fc_edi_file == False"/>
+                            <field name="l10n_do_ecf_edi_file_name" invisible="1"/>
+                            <field name="l10n_do_ecf_qr_image" readonly="1"/>
+                            <field name="l10n_do_ecf_sign_date"  string="Fecha firma" readonly="1"/>
+                            <field name="l10n_do_ecf_security_code" string="Código Seguridad" readonly="1"/>
+                            <field name="l10n_do_ecf_xml_validation" string="Estado formato XML" readonly="1"/>
+                            <!-- <button name="boton_validar_xml" class="oe_highlight" type="object" string="Validar XML"/> -->
+                             <field name="l10n_do_electronic_stamp" string="Validar en DGII"  widget="url" readonly="1" invisible="not l10n_do_electronic_stamp" groups="base.group_system"/>                            
+                        </group>
+                        <group>
+                            <field name="is_ecf_invoice" string="Es ECF" invisible="1"/>
+                            <field name="l10n_do_ecf_ambiente" string="Ambiente DGII" readonly="l10n_do_ecf_status in ('1','4')"/>
+                            <!-- <field name="l10n_do_fiscal_number" string="NCF" invisible="state != 'draft'"/> -->
+                            <field name="l10n_do_ecf_trackid" string="Track id DGII" readonly="1"/>
+                            <field name="l10n_do_ecf_status" string="Estado envio" readonly="1"/>
+                            <field name="l10n_do_ecf_response" string="Respuesta DGII" readonly="1"/>
+                            <button name="boton_firmar" class="oe_highlight" type="object" string="Enviar DGII" invisible="l10n_do_ecf_status in ('1','4') or state == 'draft'"/>
+                        </group>
+                    </group>
+                    <group col="1">
+                        <button name="boton_enviar_cliente" class="oe_highlight" type="object" string="Enviar al Cliente" invisible="l10n_do_ecf_status not in ('1','4')"/>
+                        <span class="fa fa-info-circle text-muted" title="Reenvía el e-CF al cliente usando el URL de recepción configurado en DGII.  Muy útil por si el endpoint del cliente estaba offline." style="margin-left:8px;"/>
+
+                    </group>
+                </page>
+                <page name="acecf" string="Factura e-CF Receptor" invisible="is_ecf_invoice == False or ncf_expiration_date != False or state == 'draft'">
+                    <group>
+                        <group>
+                            <field name="l10n_do_ecf_response" string="Respuesta" readonly="1"/>
+                            <button name="boton_acecf" class="oe_highlight" type="object" string="Aprobacion" invisible="l10n_do_ecf_status in ('1','4') or state == 'draft'"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

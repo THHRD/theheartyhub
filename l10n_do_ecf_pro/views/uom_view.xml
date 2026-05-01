@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="uom_uom_form_inherit" model="ir.ui.view">
+            <field name="name">uom.uom.form.inherit.l10n_do_ecf_pro</field>
+            <field name="model">uom.uom</field>
+            <field name="inherit_id" ref="uom.product_uom_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='uom_details']" position="inside">
+                    <field name="ecf_code"/>
+                    <field name="ecf_name"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

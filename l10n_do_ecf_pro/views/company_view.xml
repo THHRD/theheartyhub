@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_company_form" model="ir.ui.view">
+            <field name="name">res.company.form</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/notebook" position="inside">
+                    <page string="Electronic Certificate" name="elect_cert">
+                        <group>
+                            <group>
+                                <field name="cert"/>
+                                <field name="cert_password" password="True" required="cert"/>
+                                <field name="l10n_do_ecf_ambiente" required="cert"/>
+                                <button name="action_verifiy"
+                                        class="oe_highlight"
+                                        type="object"
+                                        string="Validate Semilla"
+                                        invisible="not cert or not cert_password"/>
+                            </group>
+                            <group>
+                                <field name="cert_owner_name"/>
+                                <field name="cert_issuer_name"/>
+                                <field name="cert_date_ini"/>
+                                <field name="cert_date_end"/>
+                                <field name="cert_subject_name"/>
+                            </group>
+                            <field name="cert_response_verify"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

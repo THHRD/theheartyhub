@@ -1,0 +1,29 @@
+#. module: l10n_do_ecf_pro
+#: code:addons/l10n_do_ecf_pro/models/account_move.py:0
+msgid "01 - Total Cancellation"
+msgstr "01 - Anulación total"
+
+#. module: l10n_do_ecf_pro
+#: code:addons/l10n_do_ecf_pro/models/account_move.py:0
+msgid "02 - Text Correction"
+msgstr "02 - Corrección de texto"
+
+#. module: l10n_do_ecf_pro
+#: code:addons/l10n_do_ecf_pro/models/account_move.py:0
+msgid "03 - Amount correction"
+msgstr "03 - Corrección de monto"
+
+#. module: l10n_do_ecf_pro
+#: code:addons/l10n_do_ecf_pro/models/account_move.py:0
+msgid "04 - NCF replacement issued in contingency"
+msgstr "04 - Reemplazo de NCF emitido en contingencia"
+
+#. module: l10n_do_ecf_pro
+#: code:addons/l10n_do_ecf_pro/models/account_move.py:0
+msgid "05 - Reference Electronic Consumer Invoice"
+msgstr "05 - Referencia de factura electrónica de consumo"
+
+#. module: l10n_do_ecf_pro
+#: model:ir.model.fields,field_description:l10n_do_ecf_pro.field_account_move__l10n_do_ecf_modification_code
+msgid "e-CF Modification Code"
+msgstr "Código de modificación e-CF"
