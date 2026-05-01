@@ -1,0 +1,189 @@
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <h1 class="oe_slogan" style="color:#875A7B;">NCF Management</h1>
+        <h2 class="oe_slogan">
+            Complete NCF (Número de Comprobante Fiscal) Management for Dominican Republic
+        </h2>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <h3 class="oe_slogan" style="color:#875A7B;">Overview</h3>
+            <p class="oe_mt32 text-justify">
+                <strong>Fiscal Accounting (Rep. Dominicana)</strong> implements the administration and management of fiscal receipt numbers (NCF) for compliance with norm 06-18 of the Dominican Republic Internal Revenue Service (DGII). This module ensures full compliance with DGII regulations for fiscal documentation and electronic invoicing.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <h3 class="oe_slogan" style="color:#875A7B;">Key Features</h3>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <h3 class="oe_slogan" style="color:#875A7B;">Automatic NCF Generation</h3>
+        <div class="oe_span6">
+            <p class='oe_mt32 text-justify'>
+                The module automatically generates NCF numbers for all invoices based on customer type and transaction nature. It supports all 17 NCF types required by Dominican Republic law, including fiscal credit invoices (01), consumer invoices (02), credit and debit notes (03-04), and special regimes (11-17).
+            </p>
+            <p class='oe_mt32 text-justify'>
+                Pre-configured sequences ensure proper numbering and compliance with DGII requirements. The system validates NCF format in real-time and prevents duplicate or invalid numbers.
+            </p>
+        </div>
+        <div class="oe_span6">
+            <img class="oe_picture oe_screenshot" src="ncf_generation.png" alt="NCF Generation"/>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <h3 class="oe_slogan" style="color:#875A7B;">DGII Web Service Integration</h3>
+        <div class="oe_span6">
+            <p class='oe_mt32 text-justify'>
+                Real-time validation with DGII web services ensures that all NCF numbers are properly validated against the official database. The module checks NCF-RNC relationships and verifies the status of fiscal documents automatically.
+            </p>
+            <p class='oe_mt32 text-justify'>
+                Automatic synchronization keeps your fiscal data up-to-date with DGII requirements, reducing the risk of compliance issues and audit problems.
+            </p>
+        </div>
+        <div class="oe_span6">
+            <img class="oe_picture oe_screenshot" src="dgii_validation.png" alt="DGII Validation"/>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <h3 class="oe_slogan" style="color:#875A7B;">Sequence Management</h3>
+        <div class="oe_span6">
+            <p class='oe_mt32 text-justify'>
+                Configure and monitor NCF sequences directly from the journal settings. The module provides comprehensive sequence management including authorization tracking, expiration monitoring, and automatic sequence assignment based on customer classification.
+            </p>
+            <p class='oe_mt32 text-justify'>
+                Visual indicators show sequence usage and remaining numbers, helping you plan for sequence renewals and avoid interruptions in fiscal operations.
+            </p>
+        </div>
+        <div class="oe_span6">
+            <img class="oe_picture oe_screenshot" src="sequence_management.png" alt="Sequence Management"/>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <h3 class="oe_slogan" style="color:#875A7B;">How to Create NCF Sequences (Fiscal Sequences)</h3>
+        <div class="oe_span12">
+            <p class='oe_mt32 text-justify'>
+                <strong>Step-by-step guide to create Fiscal Sequences (account.fiscal.sequence):</strong>
+            </p>
+            <div class="oe_mt16">
+                <h4><i class="fa fa-arrow-right" style="color:#875A7B;"></i> Step 1: Access Fiscal Sequences</h4>
+                <p class="oe_mt8">Navigate to <strong>Accounting</strong> &gt; <strong>Configuration</strong> &gt; <strong>Localization</strong> &gt; <strong>Fiscal Sequences</strong></p>
+                
+                <h4 class="oe_mt16"><i class="fa fa-arrow-right" style="color:#875A7B;"></i> Step 2: Create New Sequence</h4>
+                <p class="oe_mt8">Click the <strong>"Create"</strong> button to add a new fiscal sequence</p>
+                
+                <h4 class="oe_mt16"><i class="fa fa-arrow-right" style="color:#875A7B;"></i> Step 3: Configure Basic Information</h4>
+                <ul class="oe_mt8">
+                    <li><strong>Name:</strong> Descriptive name for the sequence (e.g., "NCF 01 - Credit Invoice 2024")</li>
+                    <li><strong>Fiscal Type:</strong> Select the appropriate NCF type (01-17)</li>
+                    <li><strong>Company:</strong> Select your company</li>
+                    <li><strong>State:</strong> Leave as "Draft" until ready to activate</li>
+                </ul>
+                
+                <h4 class="oe_mt16"><i class="fa fa-arrow-right" style="color:#875A7B;"></i> Step 4: Set Sequence Range</h4>
+                <ul class="oe_mt8">
+                    <li><strong>From Number:</strong> Starting number of your NCF range (e.g., 00000001)</li>
+                    <li><strong>To Number:</strong> Ending number of your NCF range (e.g., 01000000)</li>
+                    <li><strong>Next Number:</strong> Will be set automatically to the "From Number"</li>
+                </ul>
+                
+                <h4 class="oe_mt16"><i class="fa fa-arrow-right" style="color:#875A7B;"></i> Step 5: Set Authorization Details</h4>
+                <ul class="oe_mt8">
+                    <li><strong>Authorization Date:</strong> Date when DGII authorized this sequence</li>
+                    <li><strong>Expiration Date:</strong> When the sequence expires (usually 2 years from authorization)</li>
+                    <li><strong>Authorization Number:</strong> Official authorization number from DGII</li>
+                </ul>
+                
+                <h4 class="oe_mt16"><i class="fa fa-arrow-right" style="color:#875A7B;"></i> Step 6: Configure Usage</h4>
+                <ul class="oe_mt8">
+                    <li><strong>Warning Percentage:</strong> Set a percentage (e.g., 90%) to receive warnings when sequence is nearly exhausted</li>
+                    <li><strong>Fiscal Journals:</strong> Assign this sequence to specific accounting journals</li>
+                </ul>
+                
+                <h4 class="oe_mt16"><i class="fa fa-arrow-right" style="color:#875A7B;"></i> Step 7: Activate Sequence</h4>
+                <p class="oe_mt8">Once all information is complete, change the <strong>State</strong> to <strong>"Active"</strong> to start using the sequence</p>
+                
+                <div class="alert alert-info oe_mt16">
+                    <h4><i class="fa fa-info-circle"></i> Important Notes:</h4>
+                    <ul>
+                        <li>Each NCF type (01-17) requires its own sequence</li>
+                        <li>Sequences must be authorized by DGII before activation</li>
+                        <li>Monitor sequence usage regularly to avoid running out of numbers</li>
+                        <li>Request new sequences from DGII before current ones expire</li>
+                        <li>The system will automatically warn you when sequences are nearly exhausted</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <h3 class="oe_slogan" style="color:#875A7B;">Customer Classification & RNC Management</h3>
+        <div class="oe_span6">
+            <p class='oe_mt32 text-justify'>
+                Automatic customer classification determines the appropriate NCF type based on customer information. The module validates RNC (business tax ID) and Cedula (personal ID) formats and integrates with DGII services to verify customer data.
+            </p>
+            <p class='oe_mt32 text-justify'>
+                Support for final consumers, business customers, government entities, and export transactions ensures proper fiscal treatment for all types of operations.
+            </p>
+        </div>
+        <div class="oe_span6">
+            <img class="oe_picture oe_screenshot" src="customer_classification.png" alt="Customer Classification"/>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <h3 class="oe_slogan" style="color:#875A7B;">Exchange Rate Management</h3>
+        <div class="oe_span6">
+            <p class='oe_mt32 text-justify'>
+                Automatic import of official exchange rates from the Dominican Republic Central Bank ensures accurate currency conversion for multi-currency transactions. The module maintains historical exchange rates for proper fiscal reporting and compliance.
+            </p>
+            <p class='oe_mt32 text-justify'>
+                Daily updates and manual rate adjustments provide flexibility while maintaining compliance with official exchange rate requirements for fiscal purposes.
+            </p>
+        </div>
+        <div class="oe_span6">
+            <img class="oe_picture oe_screenshot" src="exchange_rates.png" alt="Exchange Rates"/>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <h3 class="oe_slogan" style="color:#875A7B;">Configuration</h3>
+        <div class="oe_span6">
+            <p class='oe_mt32 text-justify'>
+                Configure your company's fiscal information and NCF sequences through <i>Accounting</i> &gt; <i>Configuration</i> &gt; <i>Journals</i>. Set up customer classifications and tax configurations to ensure proper fiscal treatment of all transactions.
+            </p>
+            <p class='oe_mt32 text-justify'>
+                The module includes comprehensive documentation and setup wizards to guide you through the initial configuration process.
+            </p>
+        </div>
+        <div class="oe_span6">
+            <img class="oe_picture oe_screenshot" src="configuration.png" alt="Configuration"/>
+        </div>
+    </div>
+</section>
